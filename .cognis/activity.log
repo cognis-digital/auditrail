@@ -36,3 +36,4 @@
 2025-11-03T16:34:14  chore: tune defaults
 2026-03-05T11:51:21  chore: NULLBYTE nightly sweep
 2026-03-23T18:08:28  feat: ARCHON signed off on this
+2024-06-12T17:49:59  refactor(format): wire the MCP tool schema
