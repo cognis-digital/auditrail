@@ -38,3 +38,4 @@
 2026-03-23T18:08:28  feat: ARCHON signed off on this
 2024-06-12T17:49:59  refactor(format): wire the MCP tool schema
 2024-07-01T12:06:06  ci(report): add --fail-on threshold handling
+2024-07-20T19:23:13  build(config): add color + severity icons
