@@ -43,3 +43,4 @@
 2024-08-29T09:57:27  refactor(cli): add a fast path for the common case
 2024-09-01T16:14:34  build(deps): short-circuit on first critical
 2024-09-20T11:31:41  perf: speed. I am speed.
+2024-10-10T18:48:48  feat: PROMETHEUS unbound
