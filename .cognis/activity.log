@@ -29,3 +29,4 @@
 2026-04-20T09:05:55  chore: bump dev tooling
 2026-05-24T16:22:02  docs: expand examples
 2024-09-11T17:09:39  perf: micro-optimization
+2024-10-15T12:26:46  style: formatting (we chose violence on tabs vs spaces)
