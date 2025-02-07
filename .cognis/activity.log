@@ -49,3 +49,4 @@
 2024-12-09T15:39:09  feat(cache): add a JSON schema for output
 2024-12-29T10:56:16  fix(core): tune severity weights
 2025-01-17T17:13:23  perf(ci): handle empty and malformed input
+2025-02-07T12:30:30  test(docs): support stdin as a source
