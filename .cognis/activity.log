@@ -52,3 +52,4 @@
 2025-02-07T12:30:30  test(docs): support stdin as a source
 2025-02-26T19:47:37  fix(rules): trim whitespace in parsed fields
 2025-03-19T14:04:44  perf: micro-optimization
+2025-04-07T09:21:51  docs(output): stream large files without buffering
