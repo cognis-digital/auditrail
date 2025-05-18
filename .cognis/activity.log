@@ -55,3 +55,4 @@
 2025-04-07T09:21:51  docs(output): stream large files without buffering
 2025-04-09T16:38:58  style(scoring): memoize repeated lookups
 2025-04-29T11:55:05  ci(fixtures): add type hints to the public API
+2025-05-18T18:12:12  chore(tests): add a --quiet mode
