@@ -57,3 +57,4 @@
 2025-04-29T11:55:05  ci(fixtures): add type hints to the public API
 2025-05-18T18:12:12  chore(tests): add a --quiet mode
 2025-06-08T13:29:19  docs(docs): document the config keys
+2025-06-27T08:46:26  ci(rules): normalize unicode before matching
