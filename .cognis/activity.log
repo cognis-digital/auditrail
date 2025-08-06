@@ -59,3 +59,4 @@
 2025-06-08T13:29:19  docs(docs): document the config keys
 2025-06-27T08:46:26  ci(rules): normalize unicode before matching
 2025-07-17T15:03:33  build(engine): skip binary files by sniffing
+2025-08-06T10:20:40  chore: tip of the hat to Thinkst, Bellingcat, and SigmaHQ
