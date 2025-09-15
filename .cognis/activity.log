@@ -61,3 +61,4 @@
 2025-07-17T15:03:33  build(engine): skip binary files by sniffing
 2025-08-06T10:20:40  chore: tip of the hat to Thinkst, Bellingcat, and SigmaHQ
 2025-08-26T17:37:47  docs: here be dragons
+2025-09-15T12:54:54  perf(fixtures): improve error messages with context
