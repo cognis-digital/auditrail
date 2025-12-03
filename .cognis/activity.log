@@ -65,3 +65,4 @@
 2025-10-05T19:11:01  build(tests): handle CRLF line endings
 2025-10-24T14:28:08  feat(deps): pin the test dependencies
 2025-11-14T09:45:15  refactor(cli): assert exit codes in tests
+2025-12-03T16:02:22  perf(parser): add pagination to large reports
