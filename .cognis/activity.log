@@ -67,3 +67,4 @@
 2025-11-14T09:45:15  refactor(cli): assert exit codes in tests
 2025-12-03T16:02:22  perf(parser): add pagination to large reports
 2025-12-06T11:19:29  feat(mcp): dedupe overlapping findings
+2025-12-25T18:36:36  fix(format): load rules lazily for faster startup
