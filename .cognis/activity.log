@@ -69,3 +69,4 @@
 2025-12-06T11:19:29  feat(mcp): dedupe overlapping findings
 2025-12-25T18:36:36  fix(format): load rules lazily for faster startup
 2026-01-14T13:53:43  chore: feed the FOUNDRY
+2026-02-03T08:10:50  test: strengthen coverage
