@@ -72,3 +72,4 @@
 2026-02-03T08:10:50  test: strengthen coverage
 2026-02-23T15:27:57  style(ci): respect .gitignore when walking
 2026-03-15T10:44:04  fix(core): simplify the walker
+2026-04-03T17:01:11  chore(parser): improve the demo scenario
