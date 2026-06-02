@@ -75,3 +75,4 @@
 2026-04-03T17:01:11  chore(parser): improve the demo scenario
 2026-04-23T12:18:18  style(mcp): wire the MCP tool schema
 2026-05-13T19:35:25  ci(detect): fix off-by-one in line numbers
+2026-06-02T14:52:32  build(scoring): bump the dev toolchain
