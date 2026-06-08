@@ -1,0 +1,6 @@
+{"ts": "2026-06-08T09:01:12Z", "actor": "svc-deploy", "action": "login", "src_ip": "10.2.0.14", "result": "success"}
+{"ts": "2026-06-08T09:01:40Z", "actor": "alice@corp", "action": "read_record", "resource": "customer/8821", "result": "success"}
+{"ts": "2026-06-08T09:03:05Z", "actor": "alice@corp", "action": "export_csv", "resource": "customer/*", "rows": 1420, "result": "success"}
+{"ts": "2026-06-08T09:07:22Z", "actor": "root", "action": "grant_admin", "target": "bob@corp", "result": "success"}
+{"ts": "2026-06-08T09:09:51Z", "actor": "bob@corp", "action": "delete_record", "resource": "customer/8821", "result": "success"}
+{"ts": "2026-06-08T09:12:03Z", "actor": "bob@corp", "action": "logout", "result": "success"}
