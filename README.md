@@ -36,9 +36,11 @@ compliance evidence integrity
 <a name="features"></a>
 ## Features
 
-- ✅ Todo
-- ✅ Fixme
-- ✅ Xxx
+- ✅ Build Chain
+- ✅ Verify Chain
+- ✅ Attest
+- ✅ Load Events
+- ✅ Load Events From Path
 - ✅ Runs on Linux/macOS/Windows · Docker · devcontainer
 - ✅ Ports in Python, JavaScript, Go, and Rust (`ports/`)
 
