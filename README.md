@@ -20,6 +20,31 @@ pip install cognis-auditrail
 auditrail scan .            # → prioritized findings in seconds
 ```
 
+## Usage — step by step
+
+1. **Install** the CLI (console script `auditrail`):
+   ```bash
+   pip install cognis-auditrail
+   ```
+2. **Build the hash chain** over a JSON array / JSONL of events (each needs `ts`/`actor`/`action`); omit the path or use `-` for stdin:
+   ```bash
+   auditrail chain events.jsonl
+   ```
+3. **Verify integrity** — `verify` recomputes the chain and exits 2 if it has been tampered with:
+   ```bash
+   auditrail verify events.jsonl
+   ```
+4. **Read the result / emit an attestation** as JSON for storage or audit:
+   ```bash
+   auditrail verify events.jsonl --format json
+   auditrail attest events.jsonl --format json > attestation.json
+   ```
+5. **Automate in CI** — fail the job on any tamper break (exit 2):
+   ```yaml
+   - run: pip install cognis-auditrail
+   - run: cat events.jsonl | auditrail verify - --format json
+   ```
+
 ## Contents
 
 - [Why auditrail?](#why) · [Features](#features) · [Quick start](#quick-start) · [Example](#example) · [Architecture](#architecture) · [AI stack](#ai-stack) · [How it compares](#how-it-compares) · [Integrations](#integrations) · [Install anywhere](#install-anywhere) · [Related](#related) · [Contributing](#contributing)
