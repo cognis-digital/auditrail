@@ -34,3 +34,6 @@ auditrail = "auditrail.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["auditrail"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
