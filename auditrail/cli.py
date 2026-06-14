@@ -91,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         text, source = _read_input(args.input)
         events = load_events(text)
-    except (ValueError, FileNotFoundError, json.JSONDecodeError) as e:
+    except (ValueError, OSError, json.JSONDecodeError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
 

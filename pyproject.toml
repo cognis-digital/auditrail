@@ -32,3 +32,9 @@ auditrail = "auditrail.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["auditrail"]
+
+[tool.ruff]
+line-length = 105
+
+[tool.ruff.lint]
+select = ["E", "F"]

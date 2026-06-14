@@ -179,7 +179,10 @@ def _parse_records(text: str) -> list[dict[str, Any]]:
     if not text:
         return []
     if text[0] == "[":
-        data = json.loads(text)
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"malformed JSON array: {e}") from e
         if not isinstance(data, list):
             raise ValueError("top-level JSON must be an array of events")
         return data
@@ -208,5 +211,8 @@ def load_events(text: str) -> list[AuditEvent]:
 def load_events_from_path(path: str) -> list[AuditEvent]:
     if not os.path.isfile(path):
         raise FileNotFoundError(f"no such file: {path}")
-    with open(path, "r", encoding="utf-8") as fh:
-        return load_events(fh.read())
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            return load_events(fh.read())
+    except OSError as e:
+        raise OSError(f"cannot read {path}: {e}") from e
