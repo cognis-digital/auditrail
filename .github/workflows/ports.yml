@@ -1,0 +1,82 @@
+name: ports
+on:
+  push:
+    paths:
+      - "ports/**"
+      - ".github/workflows/ports.yml"
+  pull_request:
+    paths:
+      - "ports/**"
+      - ".github/workflows/ports.yml"
+permissions:
+  contents: read
+
+jobs:
+  python-reference:
+    name: python (reference head)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Confirm reference head
+        run: |
+          python - <<'PY'
+          import sys; sys.path.insert(0, ".")
+          from auditrail.core import build_chain, load_events
+          sample = '[{"ts":"2026-06-08T09:00:00Z","actor":"alice","action":"login"},{"ts":"2026-06-08T09:01:00Z","actor":"alice","action":"read","resource":"r1"},{"ts":"2026-06-08T09:02:00Z","actor":"bob","action":"delete","resource":"r1"}]'
+          head = build_chain(load_events(sample)).head
+          assert head == "8ae3d48a5736f485bd64d7d812d5255a5548962684e79a85d05bbbfac1ea94d3", head
+          print("python reference head OK:", head)
+          PY
+
+  javascript:
+    name: javascript (node)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node test.js
+        working-directory: ports/javascript
+
+  go:
+    name: go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - name: go vet + test + build
+        working-directory: ports/go
+        run: |
+          go vet ./...
+          go test -v ./...
+          go build -o /tmp/auditrail-go .
+          echo '[{"ts":"t1","actor":"a","action":"x"}]' | /tmp/auditrail-go verify -
+
+  rust:
+    name: rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: cargo test + build
+        working-directory: ports/rust
+        run: |
+          cargo test --quiet
+          cargo build --quiet
+          echo '[{"ts":"t1","actor":"a","action":"x"}]' | ./target/debug/auditrail verify -
+
+  shell:
+    name: shell (posix)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck + smoke test
+        working-directory: ports/shell
+        run: |
+          if command -v shellcheck >/dev/null 2>&1; then shellcheck auditrail.sh test.sh || true; fi
+          sh test.sh
