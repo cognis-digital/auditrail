@@ -1,0 +1,18 @@
+$ auditrail-emit --help
+
+usage: auditrail [-h] [--version] [--format {table,json}]
+                 {chain,verify,attest} ...
+
+Tamper-evident audit-log aggregator.
+
+positional arguments:
+  {chain,verify,attest}
+    chain               build and print the hash chain
+    verify              verify chain integrity, exit 2 on tamper
+    attest              emit a compliance attestation manifest
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --format {table,json}
+                        output format

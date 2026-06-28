@@ -1,0 +1,3 @@
+$ auditrail-emit --version
+
+auditrail 1.0.0

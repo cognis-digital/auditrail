@@ -27,6 +27,69 @@ single event invalidates every downstream digest — and `verify` pinpoints exac
 where. It is **passive and offline**: it reads event files you give it, performs
 **no network calls, no active scanning, and no log collection from remote hosts**.
 
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ auditrail-emit --version
+auditrail 1.0.0
+```
+
+```console
+$ auditrail-emit --help
+usage: auditrail [-h] [--version] [--format {table,json}]
+                 {chain,verify,attest} ...
+
+Tamper-evident audit-log aggregator.
+
+positional arguments:
+  {chain,verify,attest}
+    chain               build and print the hash chain
+    verify              verify chain integrity, exit 2 on tamper
+    attest              emit a compliance attestation manifest
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --format {table,json}
+                        output format
+```
+
+> Blocks above are real `auditrail` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+"timestamp": "2023-02-15T14:30:00Z",
+"findings": [
+  {
+    "id": "1234567890",
+    "title": "Suspicious Network Traffic",
+    "description": "Potential malicious activity detected on port 443.",
+    "severity": "medium",
+    "confidence": "high",
+    "labels": ["network", "suspicious"],
+    "mitre_attack_id": "T1006"
+  },
+  {
+    "id": "2345678901",
+    "title": "Unusual File Access",
+    "description": "User accessed a file with unusual permissions.",
+    "severity": "low",
+    "confidence": "medium",
+    "labels": ["file", "unusual"],
+    "mitre_attack_id": "T1056"
+  }
+]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Contents
 
 - [Why auditrail?](#why) · [How it works](#how) · [Install](#install) · [Quick start](#quick-start) · [Worked example](#example) · [Output formats](#formats) · [Edge / air-gap](#edge) · [Language ports](#ports) · [Use from any AI stack](#ai-stack) · [Integrations](#integrations) · [Scope & safety](#scope) · [Related](#related) · [Contributing](#contributing)
