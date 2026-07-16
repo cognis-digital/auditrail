@@ -12,6 +12,20 @@ from auditrail.core import (
     verify_chain,
     attest,
     load_events,
+    load_events_from_path,
+    summarize,
+    scan,
+    to_json,
+)
+from auditrail.merkle import (
+    InclusionProof,
+    ProofError,
+    ProofStep,
+    inclusion_proof,
+    leaf_hash,
+    merkle_attest,
+    merkle_root,
+    verify_inclusion,
 )
 
 TOOL_NAME = "auditrail"
@@ -25,6 +39,18 @@ __all__ = [
     "verify_chain",
     "attest",
     "load_events",
+    "load_events_from_path",
+    "summarize",
+    "scan",
+    "to_json",
+    "InclusionProof",
+    "ProofError",
+    "ProofStep",
+    "inclusion_proof",
+    "leaf_hash",
+    "merkle_attest",
+    "merkle_root",
+    "verify_inclusion",
     "TOOL_NAME",
     "TOOL_VERSION",
 ]

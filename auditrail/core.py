@@ -210,3 +210,52 @@ def load_events_from_path(path: str) -> list[AuditEvent]:
         raise FileNotFoundError(f"no such file: {path}")
     with open(path, "r", encoding="utf-8") as fh:
         return load_events(fh.read())
+
+
+def summarize(chain: HashChain) -> dict[str, Any]:
+    """Compute descriptive statistics over a chain's events.
+
+    Returns per-actor and per-action tallies, the distinct-value counts, and the
+    time span (first/last ``ts``). Purely derived from the events already in the
+    chain; performs no I/O and does not mutate the chain.
+    """
+    actor_counts: dict[str, int] = {}
+    action_counts: dict[str, int] = {}
+    for lk in chain.links:
+        actor_counts[lk.event.actor] = actor_counts.get(lk.event.actor, 0) + 1
+        action_counts[lk.event.action] = action_counts.get(lk.event.action, 0) + 1
+    return {
+        "event_count": len(chain),
+        "distinct_actors": len(actor_counts),
+        "distinct_actions": len(action_counts),
+        "actors": dict(sorted(actor_counts.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "actions": dict(sorted(action_counts.items(), key=lambda kv: (-kv[1], kv[0]))),
+        "first_ts": chain.links[0].event.ts if chain.links else None,
+        "last_ts": chain.links[-1].event.ts if chain.links else None,
+        "head": chain.head,
+    }
+
+
+def scan(target: str) -> dict[str, Any]:
+    """One-call integrity scan of an event source.
+
+    ``target`` may be a path to a JSON/JSONL file **or** a literal JSON/JSONL
+    string. Returns a self-describing report combining the attestation manifest
+    with the per-break detail from :func:`verify_chain`. Designed as the stable
+    programmatic entry point (also exposed as an MCP tool).
+    """
+    if os.path.isfile(target):
+        events = load_events_from_path(target)
+        source = target
+    else:
+        events = load_events(target)
+        source = "<inline>"
+    chain = build_chain(events)
+    report = attest(chain, source=source)
+    report["breaks"] = verify_chain(chain)
+    return report
+
+
+def to_json(obj: Any, indent: int = 2) -> str:
+    """Serialize a report/manifest to a stable JSON string."""
+    return json.dumps(obj, indent=indent, sort_keys=False, ensure_ascii=False)

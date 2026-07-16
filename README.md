@@ -60,31 +60,23 @@ options:
 
 > Blocks above are real `auditrail` output — reproduce them from a clone.
 
-**Sample result format** _(illustrative values — run on your own data for real findings):_
+**Sample `attest --format json` output** _(illustrative values — run on your own data):_
 
-```
+```json
 {
-"timestamp": "2023-02-15T14:30:00Z",
-"findings": [
-  {
-    "id": "1234567890",
-    "title": "Suspicious Network Traffic",
-    "description": "Potential malicious activity detected on port 443.",
-    "severity": "medium",
-    "confidence": "high",
-    "labels": ["network", "suspicious"],
-    "mitre_attack_id": "T1006"
-  },
-  {
-    "id": "2345678901",
-    "title": "Unusual File Access",
-    "description": "User accessed a file with unusual permissions.",
-    "severity": "low",
-    "confidence": "medium",
-    "labels": ["file", "unusual"],
-    "mitre_attack_id": "T1056"
-  }
-]
+  "tool": "auditrail",
+  "version": "1.0.0",
+  "source": "events.jsonl",
+  "attested_at": "2026-06-23T14:05:00Z",
+  "event_count": 3,
+  "genesis": "0000000000000000000000000000000000000000000000000000000000000000",
+  "head": "8ae3d48a5736f485bd64d7d812d5255a5548962684e79a85d05bbbfac1ea94d3",
+  "first_ts": "2026-06-08T09:00:00Z",
+  "last_ts": "2026-06-08T09:02:00Z",
+  "distinct_actors": ["alice", "bob"],
+  "intact": true,
+  "break_count": 0,
+  "manifest_digest": "…"
 }
 ```
 
@@ -92,7 +84,7 @@ options:
 
 ## Contents
 
-- [Why auditrail?](#why) · [How it works](#how) · [Install](#install) · [Quick start](#quick-start) · [Worked example](#example) · [Output formats](#formats) · [Edge / air-gap](#edge) · [Language ports](#ports) · [Use from any AI stack](#ai-stack) · [Integrations](#integrations) · [Scope & safety](#scope) · [Related](#related) · [Contributing](#contributing)
+- [Why auditrail?](#why) · [How it works](#how) · [Membership proofs](#proofs) · [Install](#install) · [Quick start](#quick-start) · [Worked example](#example) · [Output formats](#formats) · [Edge / air-gap](#edge) · [Language ports](#ports) · [Use from any AI stack](#ai-stack) · [Integrations](#integrations) · [Scope & safety](#scope) · [Related](#related) · [Contributing](#contributing)
 
 <a name="why"></a>
 ## Why auditrail?
@@ -138,6 +130,29 @@ flowchart LR
 
 <div align="right"><a href="#top">↑ back to top</a></div>
 
+<a name="proofs"></a>
+## Membership proofs (Merkle)
+
+The hash chain proves the **whole log** is intact with one head digest, but
+proving that *one specific event* is in the log means replaying every event up to
+it. `auditrail` also builds a binary **Merkle tree** over the same canonical
+events, giving a compact **O(log n) inclusion proof** for any single event —
+without revealing or transmitting the others.
+
+```bash
+auditrail root  events.jsonl                       # the Merkle root (membership fingerprint)
+auditrail prove events.jsonl --index 1 --format json > proof.json
+auditrail verify-proof proof.json                  # exit 0 valid · 2 invalid
+```
+
+A verifier who holds only the trusted `root` can validate a single event: the
+proof carries the leaf digest and an audit path of sibling hashes. Leaves and
+internal nodes are domain-separated (`0x00` / `0x01`, RFC-6962 style) to prevent
+second-preimage attacks, and odd trailing nodes are *promoted* rather than
+duplicated (avoids CVE-2012-2459). See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+<div align="right"><a href="#top">↑ back to top</a></div>
+
 <a name="install"></a>
 ## Install — every way, every platform
 
@@ -175,7 +190,16 @@ auditrail verify events.jsonl
 
 # 3. Emit a retainable attestation manifest as JSON
 auditrail attest events.jsonl --format json > attestation.json
+
+# 4. Summarize actors / actions / time span
+auditrail stats events.jsonl
+
+# 5. Merkle membership proof: prove event #1 belongs to the log, then check it
+auditrail prove events.jsonl --index 1 --format json | auditrail verify-proof -
 ```
+
+Full command reference, input formats, exit codes, and the Python API are in
+**[docs/USAGE.md](docs/USAGE.md)**; the design is in **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)**.
 
 Gate CI on integrity (any tamper break exits non-zero):
 
@@ -258,8 +282,12 @@ $ auditrail attest events.jsonl --format json
 | `chain`  | indexed link table + head  | `{head, event_count, links[]}` | 0 |
 | `verify` | INTACT / BROKEN summary     | `{intact, event_count, break_count, breaks[]}` | **0 intact · 2 tampered · 1 bad input** |
 | `attest` | key/value manifest          | full attestation manifest (JSON) | 0 intact · 2 tampered |
+| `stats`  | actor/action tallies + span | `{event_count, actors{}, actions{}, first_ts, last_ts, head}` | 0 |
+| `root`   | leaf count + Merkle root    | `{kind, leaf_count, root, empty_root}` | 0 |
+| `prove`  | leaf + audit path           | `{kind, index, leaf, root, leaf_count, path[]}` | 0 · 1 bad index |
+| `verify-proof` | VALID / INVALID       | `{verified, index, root, leaf, leaf_count}` | **0 valid · 2 invalid · 1 malformed** |
 
-The `verify` exit code (**2 on tamper**) is designed for CI gates and cron checks.
+The `verify` / `verify-proof` exit code (**2 on tamper**) is designed for CI gates and cron checks.
 The JSON output composes cleanly with `jq`, SIEM forwarders, and the
 [`cognis-connect`](https://github.com/cognis-digital/cognis-connect) emitter
 (`auditrail attest events.jsonl --format json | auditrail-emit --to splunk`).

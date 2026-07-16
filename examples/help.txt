@@ -1,15 +1,20 @@
-$ auditrail-emit --help
+$ auditrail --help
 
 usage: auditrail [-h] [--version] [--format {table,json}]
-                 {chain,verify,attest} ...
+                 {chain,verify,attest,stats,root,prove,verify-proof,mcp} ...
 
 Tamper-evident audit-log aggregator.
 
 positional arguments:
-  {chain,verify,attest}
+  {chain,verify,attest,stats,root,prove,verify-proof,mcp}
     chain               build and print the hash chain
     verify              verify chain integrity, exit 2 on tamper
     attest              emit a compliance attestation manifest
+    stats               summarize actors, actions, and time span
+    root                emit the Merkle root over the events
+    prove               emit an inclusion proof for one event index
+    verify-proof        verify an inclusion proof (exit 2 if invalid)
+    mcp                 start the MCP stdio server (requires the 'mcp' extra)
 
 options:
   -h, --help            show this help message and exit

@@ -22,7 +22,7 @@ classifiers = [
 [project.optional-dependencies]
 connect = ["cognis-connect @ git+https://github.com/cognis-digital/cognis-connect.git"]
 mcp = ["mcp>=1.0"]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
 
 [project.urls]
 Homepage = "https://cognis.digital"
