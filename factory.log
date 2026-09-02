@@ -23,3 +23,8 @@
 [2026-07-12 09:17:57]   +polyglot/python/secure_storage_adapter.py  (loc now ~9288)
 [2026-07-12 09:20:12]   +polyglot/go/secure_storage_adapter.go  (loc now ~9774)
 [2026-07-12 09:23:02]   +polyglot/rust/secure_storage_adapter.rs  (loc now ~10238)
+[2026-07-12 09:23:06] === done · auditrail · loc=10238 · {'committed': True, 'pushed': True, 'push_err': ''} ===
+[2026-09-01 23:14:17] === enhance · auditrail · words=120000 loc>=10000 langs=9 push=True ===
+[2026-09-01 23:14:21] phase DOCS — longform 120000-word corpus -> docs/corpus/
+[2026-09-02 07:04:12] phase POLYGLOT — expanding to >= 10000 LOC across 9 languages
+[2026-09-02 07:05:06]   facets: ['log_ingestion', 'log_normalization', 'hash_chain_builder', 'tamper_evidence_detector', 'secure_storage', 'attestation_verification']
